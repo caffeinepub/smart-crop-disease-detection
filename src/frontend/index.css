@@ -1,0 +1,134 @@
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/assets/fonts/BricolageGrotesque-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/assets/fonts/Fraunces-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('/assets/fonts/GeneralSans-Variable.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Agriculture-themed: rich greens, warm earthy tones, warm whites */
+    --background: 0.97 0.01 90;
+    --foreground: 0.2 0.04 145;
+    --card: 0.99 0.005 90;
+    --card-foreground: 0.2 0.04 145;
+    --popover: 0.99 0.005 90;
+    --popover-foreground: 0.2 0.04 145;
+    --primary: 0.5 0.15 145;
+    --primary-foreground: 0.99 0.005 90;
+    --secondary: 0.88 0.04 90;
+    --secondary-foreground: 0.25 0.05 145;
+    --muted: 0.92 0.02 90;
+    --muted-foreground: 0.5 0.04 145;
+    --accent: 0.72 0.15 65;
+    --accent-foreground: 0.99 0.005 90;
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.99 0.005 90;
+    --border: 0.88 0.03 145;
+    --input: 0.88 0.03 145;
+    --ring: 0.5 0.15 145;
+    --radius: 0.75rem;
+
+    /* Chart colors */
+    --chart-1: 0.55 0.17 145;
+    --chart-2: 0.65 0.14 65;
+    --chart-3: 0.6 0.18 25;
+    --chart-4: 0.7 0.12 200;
+    --chart-5: 0.75 0.1 90;
+
+    /* Severity colors */
+    --severity-low: 0.55 0.17 145;
+    --severity-medium: 0.72 0.15 65;
+    --severity-high: 0.55 0.22 25;
+
+    /* Sidebar */
+    --sidebar: 0.22 0.06 145;
+    --sidebar-foreground: 0.95 0.01 90;
+    --sidebar-primary: 0.55 0.17 145;
+    --sidebar-primary-foreground: 0.99 0.005 90;
+    --sidebar-accent: 0.3 0.08 145;
+    --sidebar-accent-foreground: 0.95 0.01 90;
+    --sidebar-border: 0.3 0.05 145;
+    --sidebar-ring: 0.5 0.15 145;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'General Sans', sans-serif;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+}
+
+@layer utilities {
+  .section-heading {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    @apply text-3xl font-bold text-foreground;
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+  }
+
+  .grain-overlay {
+    position: relative;
+  }
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 oklch(0.6 0.14 200 / 0.5); }
+    50% { box-shadow: 0 0 0 8px oklch(0.6 0.14 200 / 0); }
+  }
+
+  .badge-scanning {
+    animation: pulse-ring 2s ease-in-out infinite;
+  }
+
+  @keyframes progress-fill {
+    from { width: 0%; }
+    to { width: var(--target-width); }
+  }
+
+  .animate-progress {
+    animation: progress-fill 1.5s ease-out forwards;
+  }
+}
