@@ -109,8 +109,28 @@ actor {
         treatmentRecommendations = detection2.recommendedTreatment;
       };
 
+      let library3 : DiseaseLibrary = {
+        id = 3;
+        diseaseName = "Wheat Rust";
+        affectedCropType = "Wheat";
+        symptomsDescription = "Orange-brown powdery pustules on leaves and stems. Leaves turn yellow and dry up.";
+        preventionTips = "Use rust-resistant varieties; apply fungicide at early stages; remove infected crop residue.";
+        treatmentRecommendations = "Spray Propiconazole or Tebuconazole fungicide. Repeat after 2 weeks if needed.";
+      };
+
+      let library4 : DiseaseLibrary = {
+        id = 4;
+        diseaseName = "Cotton Leaf Curl";
+        affectedCropType = "Cotton";
+        symptomsDescription = "Leaves curl upward, turn yellow with mosaic patterns. Stunted plant growth.";
+        preventionTips = "Use virus-resistant cotton varieties; control whitefly population which spreads the virus.";
+        treatmentRecommendations = "Apply Imidacloprid to control whiteflies. Remove and destroy heavily infected plants.";
+      };
+
       diseaseLibrary.add(1, library1);
       diseaseLibrary.add(2, library2);
+      diseaseLibrary.add(3, library3);
+      diseaseLibrary.add(4, library4);
     };
   };
 

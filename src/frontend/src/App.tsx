@@ -891,6 +891,11 @@ export default function App() {
     "Tomato Blight": "/assets/generated/disease-blight.dim_400x300.jpg",
     "Rice Rust": "/assets/generated/disease-rust.dim_400x300.jpg",
     "Corn Leaf Blight": "/assets/generated/disease-mold.dim_400x300.jpg",
+    "Leaf Spot": "/assets/generated/library-tomato-leafspot.dim_400x300.jpg",
+    "Root Rot": "/assets/generated/library-potato-rootrot.dim_400x300.jpg",
+    "Wheat Rust": "/assets/generated/library-wheat-rust.dim_400x300.jpg",
+    "Cotton Leaf Curl":
+      "/assets/generated/library-cotton-leafcurl.dim_400x300.jpg",
   };
   const fallbackDiseaseImg = "/assets/generated/disease-blight.dim_400x300.jpg";
 
