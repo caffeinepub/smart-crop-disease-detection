@@ -1,28 +1,13 @@
-import { Coins, Search, UserCheck } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export default function HomeSection() {
   const { t } = useLanguage();
 
-  const features = [
-    {
-      key: "early",
-      icon: <Search size={32} className="text-primary" />,
-      title: t.home.feature1Title,
-      desc: t.home.feature1Desc,
-    },
-    {
-      key: "cost",
-      icon: <Coins size={32} className="text-primary" />,
-      title: t.home.feature2Title,
-      desc: t.home.feature2Desc,
-    },
-    {
-      key: "farmer",
-      icon: <UserCheck size={32} className="text-primary" />,
-      title: t.home.feature3Title,
-      desc: t.home.feature3Desc,
-    },
+  const statCards = [
+    { key: "crops", value: "5", label: t.cropHealth.totalAnalyzed },
+    { key: "diseases", value: "2", label: t.detection.demoTitle },
+    { key: "coverage", value: "80%", label: t.fieldCoverage.coverage },
+    { key: "healthy", value: "85%", label: t.cropHealth.healthy },
   ];
 
   return (
@@ -39,7 +24,7 @@ export default function HomeSection() {
         <div className="relative z-10 text-center px-4 max-w-3xl mx-auto section-fade-in">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur rounded-full px-4 py-1.5 text-sm font-medium mb-4">
             <span className="w-2 h-2 rounded-full bg-green-300 scanning-dot inline-block" />
-            AI-Powered System
+            🌾 AI-Powered Agriculture
           </div>
           <h1 className="font-display text-3xl md:text-5xl font-bold leading-tight mb-4">
             {t.home.heading}
@@ -52,27 +37,26 @@ export default function HomeSection() {
             data-ocid="home.primary_button"
             className="inline-block bg-primary hover:bg-[oklch(0.45_0.17_145)] text-white font-bold px-8 py-4 rounded-full text-lg transition-transform hover:scale-105 shadow-lg"
           >
-            🔍 Start Detection
+            {t.home.viewDetections}
           </a>
         </div>
       </div>
 
       <div className="bg-secondary/50 py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {features.map((f) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {statCards.map((s) => (
               <div
-                key={f.key}
+                key={s.key}
                 data-ocid="home.card"
                 className="bg-card rounded-2xl p-6 shadow-sm border border-border flex flex-col items-center text-center hover:shadow-md transition-shadow"
               >
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  {f.icon}
+                <div className="font-display text-3xl font-bold text-primary mb-1">
+                  {s.value}
                 </div>
-                <h3 className="font-display text-xl font-semibold text-foreground mb-2">
-                  {f.title}
-                </h3>
-                <p className="text-muted-foreground">{f.desc}</p>
+                <div className="text-sm text-muted-foreground font-medium">
+                  {s.label}
+                </div>
               </div>
             ))}
           </div>

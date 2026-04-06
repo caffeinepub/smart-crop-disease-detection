@@ -1,136 +1,132 @@
-import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 
-function AnimatedBar({
-  pct,
-  color,
-  label,
-}: { pct: number; color: string; label: string }) {
-  const [width, setWidth] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setWidth(pct), 100);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.3 },
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, [pct]);
-
-  return (
-    <div ref={ref}>
-      <div className="flex justify-between text-sm font-semibold mb-1">
-        <span>{label}</span>
-        <span>{pct}%</span>
-      </div>
-      <div className="w-full bg-muted rounded-full h-5 overflow-hidden">
-        <div
-          className={`h-full ${color} rounded-full progress-bar flex items-center justify-end pr-2`}
-          style={{ width: `${width}%` }}
-        >
-          <span className="text-white text-xs font-bold">
-            {width > 10 ? `${pct}%` : ""}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-type StatCard = {
-  label: string;
-  value: string;
-  icon: string;
-  color: string;
-  key: string;
-};
+const lastUpdated = new Date().toLocaleString();
 
 export default function CropHealthSection() {
   const { t } = useLanguage();
 
-  const stats: StatCard[] = [
-    {
-      key: "total",
-      label: t.cropHealth.totalAnalyzed,
-      value: t.cropHealth.cropsCount,
-      icon: "📊",
-      color: "bg-primary/10 text-primary",
-    },
-    {
-      key: "healthy",
-      label: t.cropHealth.healthy,
-      value: "78%",
-      icon: "✅",
-      color: "bg-green-50 text-green-700",
-    },
-    {
-      key: "infected",
-      label: t.cropHealth.infected,
-      value: "22%",
-      icon: "⚠️",
-      color: "bg-red-50 text-red-700",
-    },
-  ];
-
   return (
     <section id="crop-health" className="py-16 bg-background">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground text-center mb-2">
           🌾 {t.cropHealth.sectionTitle}
         </h2>
+        <p className="text-center text-muted-foreground mb-10">
+          {t.cropHealth.subtitle}
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          {stats.map((stat) => (
-            <div
-              key={stat.key}
-              data-ocid="crop_health.card"
-              className={`${stat.color} rounded-2xl p-6 text-center border border-border`}
-            >
-              <div className="text-4xl mb-2">{stat.icon}</div>
-              <div className="text-3xl font-display font-bold mb-1">
-                {stat.value}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {/* Chart card */}
+          <div
+            data-ocid="crop_health.card"
+            className="bg-card rounded-2xl p-6 shadow-sm border border-border"
+          >
+            <h3 className="font-display text-lg font-semibold text-foreground mb-4">
+              {t.cropHealth.healthDistribution}
+            </h3>
+            <div className="flex justify-center mb-6">
+              <div className="relative w-40 h-40">
+                <svg
+                  viewBox="0 0 36 36"
+                  className="w-full h-full -rotate-90"
+                  role="img"
+                  aria-label="Health distribution chart"
+                >
+                  <circle
+                    cx="18"
+                    cy="18"
+                    r="15.9155"
+                    fill="none"
+                    stroke="oklch(0.88 0.04 145)"
+                    strokeWidth="3.5"
+                  />
+                  <circle
+                    cx="18"
+                    cy="18"
+                    r="15.9155"
+                    fill="none"
+                    stroke="oklch(0.52 0.17 145)"
+                    strokeWidth="3.5"
+                    strokeDasharray="60 40"
+                    strokeLinecap="round"
+                  />
+                  <circle
+                    cx="18"
+                    cy="18"
+                    r="15.9155"
+                    fill="none"
+                    stroke="oklch(0.55 0.22 27)"
+                    strokeWidth="3.5"
+                    strokeDasharray="40 60"
+                    strokeDashoffset="-60"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="font-display text-2xl font-bold text-primary">
+                    60%
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {t.cropHealth.healthy}
+                  </span>
+                </div>
               </div>
-              <div className="text-sm font-medium opacity-80">{stat.label}</div>
             </div>
-          ))}
-        </div>
-
-        <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border space-y-5">
-          <AnimatedBar
-            pct={78}
-            color="bg-green-500"
-            label={t.cropHealth.healthy}
-          />
-          <AnimatedBar
-            pct={22}
-            color="bg-red-500"
-            label={t.cropHealth.infected}
-          />
-
-          <div className="pt-4">
-            <div className="flex items-end gap-4 h-32 justify-center">
-              <div className="flex flex-col items-center gap-1">
-                <div
-                  className="w-16 bg-green-500 rounded-t-lg"
-                  style={{ height: "78%" }}
-                />
-                <span className="text-xs text-muted-foreground">
+            <div className="flex gap-6 justify-center">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-primary" />
+                <span className="text-sm text-muted-foreground">
                   {t.cropHealth.healthy}
                 </span>
               </div>
-              <div className="flex flex-col items-center gap-1">
-                <div
-                  className="w-16 bg-red-400 rounded-t-lg"
-                  style={{ height: "22%" }}
-                />
-                <span className="text-xs text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-destructive" />
+                <span className="text-sm text-muted-foreground">
                   {t.cropHealth.infected}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats card */}
+          <div
+            data-ocid="crop_health.card"
+            className="bg-card rounded-2xl p-6 shadow-sm border border-border"
+          >
+            <h3 className="font-display text-lg font-semibold text-foreground mb-4">
+              {t.cropHealth.fieldStatistics}
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between py-3 border-b border-border">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                  <span className="text-sm font-medium text-foreground">
+                    {t.cropHealth.healthy}
+                  </span>
+                </div>
+                <span className="font-bold text-green-600">3 (60%)</span>
+              </div>
+              <div className="flex items-center justify-between py-3 border-b border-border">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  <span className="text-sm font-medium text-foreground">
+                    {t.cropHealth.infected}
+                  </span>
+                </div>
+                <span className="font-bold text-red-600">2 (40%)</span>
+              </div>
+              <div className="flex items-center justify-between py-3 border-b border-border">
+                <span className="text-sm font-medium text-foreground">
+                  {t.cropHealth.totalAnalyzed}
+                </span>
+                <span className="font-bold text-foreground">5</span>
+              </div>
+              <div className="flex items-center justify-between py-3">
+                <span className="text-sm font-medium text-muted-foreground">
+                  {t.cropHealth.lastUpdated}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  {lastUpdated}
                 </span>
               </div>
             </div>
